@@ -1,0 +1,6 @@
+<h1>registrar persona</h>
+
+<form method="POST">{% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">agregar</button>
+</form>
