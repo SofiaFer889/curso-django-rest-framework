@@ -7,9 +7,16 @@ from django.views.generic import (
     DetailView,
     CreateView,
     TemplateView,
+    UpdateView,
+    DeleteView,
 )
 
 from .models import Empleado
+
+class InicioView(TemplateView):
+    """vista que carga la pag de nicio"""
+    template_name = 'inicio.html'
+    
 
 class ListAllEmpleados(ListView):
     template_name = 'persona/list_all.html'
@@ -83,3 +90,37 @@ class EmpleadoCreateView(CreateView):
         empleado.full_name = empleado.first_name + ' ' + empleado.last_name
         empleado.save()
         return super(EmpleadoCreateView, self).form_valid(form)
+    
+    
+    
+    
+    
+class EmpleadoUpDateView(UpdateView):
+    template_name = "persona/update.html"
+    model = Empleado
+    fields = [
+        'first_name',
+        'last_name',
+        'job',
+        'departamento',
+        'Habilidades',
+    ]
+    success_url = reverse_lazy('persona_app:correcto')
+    
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        print('*****metodo post*****')
+        print('======')
+        print(request.POST)
+        print(request.POST['last_name'])
+        return super().post(request, *args, **kwargs)
+    
+    def form_valid(self, form):
+        print('****metodo form_valid******')
+        print('**********')
+        return super(EmpleadoUpDateView, self).form_valid(form)
+    
+class EmpleadoDeleteView(DeleteView):
+    model = Empleado
+    template_name = "persona/delete.html"
+    success_url = reverse_lazy('persona_app:correcto')
