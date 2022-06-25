@@ -11,7 +11,7 @@ ALLOWED_HOSTS = []
 #DATABASES = {
 #    'default': {
 #        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': BASE_DIR / 'db.sqlite3',
+#        'NAME': BASE_DIR / 'db.sqlite3',\questions\95093\is-there-any-significant-difference-between-駆け回る-and-駆け巡る
 #   }
 #}
 # Static files (CSS, JavaScript, Images)
@@ -21,8 +21,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'dbempleado',
-        'USER' : 'neunapp',
-        'PASSWORD': 'neunappcursopro',
+        'USER' : 'sofiafer',
+        'PASSWORD': 'sofia016',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -30,3 +30,6 @@ DATABASES = {
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR/'static']
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR/'media'

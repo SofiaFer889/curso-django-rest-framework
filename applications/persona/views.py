@@ -9,9 +9,12 @@ from django.views.generic import (
     TemplateView,
     UpdateView,
     DeleteView,
+    
 )
-
+#models
 from .models import Empleado
+#forms
+from .forms import EmpleadoForm
 
 class InicioView(TemplateView):
     """vista que carga la pag de nicio"""
@@ -20,13 +23,29 @@ class InicioView(TemplateView):
 
 class ListAllEmpleados(ListView):
     template_name = 'persona/list_all.html'
-    paginate_by = 2
+    paginate_by = 4
     ordering = 'first_name'
+    context_object_name = 'empleados'
+    
+    def get_queryset(self):
+        print('************')
+        palabra_clave = self.request.GET.get("kword", '')
+        lista = Empleado.objects.filter(
+            full_name__icontains=palabra_clave
+        )
+        return lista
+    
+class ListaEmpleadosAdmin(ListView):
+    template_name = 'persona/lista_empleados.html'
+    paginate_by = 4
+    ordering = 'first_name'
+    context_object_name = 'empleados'
     model = Empleado
 
 class ListByAreaEmpleado(ListView):
     """ lista empleados de un area """
     template_name = 'persona/list_by_area.html'
+    context_object_name = 'empleados'
     
     def get_queryset(self):
         area = self.kwargs['shorname']
@@ -34,7 +53,8 @@ class ListByAreaEmpleado(ListView):
         departamento__shor_name=area
         )
         return lista 
-    
+
+#vista sobre buscador    
 class ListEmpleadosByKword(ListView):
     """ lista empleado por palabra clave """
     template_name = 'persona/by_kword.html'
@@ -50,7 +70,7 @@ class ListEmpleadosByKword(ListView):
     
 class ListHabilidadesHempleados(ListView):
     template_name = 'persona/habilidades.html'
-    paginate_by = 2
+    paginate_by = 4
     context_object_name = 'habilidades'
     
     def get_queryset(self):
@@ -63,7 +83,7 @@ class EmpleadoDetailView(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super(EmpleadoDetailView, self).get_context_data(**kwargs)
-        context['titulo'] = 'empleado del mes'
+        context['titulo'] = 'informacion del empleado'
         return context
 
 
@@ -76,14 +96,8 @@ class SuccessView(TemplateView):
 class EmpleadoCreateView(CreateView):
     template_name = "persona/add.html"
     model = Empleado
-    fields = [
-        'first_name',
-        'last_name',
-        'job',
-        'departamento',
-        'Habilidades',
-    ]
-    success_url = reverse_lazy('persona_app:correcto')
+    form_class = EmpleadoForm
+    success_url = reverse_lazy('persona_app:empleados_admin')
     
     def form_valid(self, form):
         empleado = form.save(commit=False)
@@ -105,7 +119,7 @@ class EmpleadoUpDateView(UpdateView):
         'departamento',
         'Habilidades',
     ]
-    success_url = reverse_lazy('persona_app:correcto')
+    success_url = reverse_lazy('persona_app:empleados_admin')
     
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -123,4 +137,4 @@ class EmpleadoUpDateView(UpdateView):
 class EmpleadoDeleteView(DeleteView):
     model = Empleado
     template_name = "persona/delete.html"
-    success_url = reverse_lazy('persona_app:correcto')
+    success_url = reverse_lazy('persona_app:empleados_admin')

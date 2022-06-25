@@ -5,7 +5,7 @@ from django.db import models
 # para saber que tipo de model usar para cada tipo de datos a solicitar buscar en google :
 # "django models fields type"(en la pag de documentacion de django)
 class Departamento(models.Model):
-    name = models.CharField('Nombre', max_length=50, blank=True, editable=False)
+    name = models.CharField('Nombre', max_length=50,)
     shor_name = models.CharField('Nombre Corto', max_length=20, unique=True)
     anulate = models.BooleanField('anulado', default=False)
 

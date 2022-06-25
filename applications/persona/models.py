@@ -38,7 +38,7 @@ class Empleado(models.Model):
     job = models.CharField('trabajo', max_length=1, choices=JOB_CHOICES)
     departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE) #asi se crea la relacion entre :
     #persona y departamento(que es lo que se solicita)
-    #avatar = models.ImageField(upload_to='empleado', blank=True, null=True)
+    avatar = models.ImageField(upload_to='empleado', blank=True, null=True)
     Habilidades = models.ManyToManyField(Habilidades)
     hola_vida = RichTextField()
 

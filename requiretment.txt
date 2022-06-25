@@ -1,0 +1,5 @@
+Django~=3.2.10
+
+django-ckeditor~=6.4.2
+
+pillow~=9.1.1
